@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title%} Budget Nourriture {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> Creation d un Budgett </h1>
+<div class="b1">
+    <div class="m1">
+      
+        <form action="" method="post">
+            <p><label class="l" for="date">Start month:</label>
+
+                <input class="in" type="date" id="date" name="date" min="2023-01" value="2024-06" /></p>
+
+        <label class="l" for="categorie_budget">Choisissez dans quelle categorie se situe votre budget:</label>
+
+                <select  class="in" name="categorie_budget" id="categorie_budget">
+                  <option value="">--Please choose an option--</option>
+                  {% for c in categories %}
+                    {% if c == [] %}
+                    <h1>test</h1>
+                    <label class="l" for="new_categorie"> nom de la categorie: </label>
+                    <input class="in" type="text" 
+                        id="new_categorie"
+                        name="new_categorie" 
+                        placeholder="Entrez une nouvelle categorie" required>
+                    {% endif %}
+                    <option value="{{ c.budget_categorie_name }}">{{ c.budget_categorie_name }}</option>
+                  {% endfor %}
+                
+                </select>
+
+        <label class="l" for="montant">montant du budget: </label>
+    
+                <input class="in" type="number" name="montant" placeholder="1.0" step="0.01" min="0" max="10000" />
+                
+                <div class="wrap">
+                    <button class="bu" type="submit">
+                            ajouter
+                    </button>
+                    
+                </div>
+        </form>
+       
+    </div>
+</div>
+
+{% endblock %}

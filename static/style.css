@@ -1,0 +1,131 @@
+/*style.css justify-content: center;*/
+.b1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    line-height: 1.5;
+    min-height: 100vh;
+    background: rgba(216, 181, 105, 0.133);
+    flex-direction: column;
+    margin: 0px;
+}
+
+.m1 {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    transition: transform 0.2s;
+    width: 800px;
+    text-align: center;
+}
+.img{
+    width: 150px;
+    border-radius: 300px;
+}
+.text-gras {
+    color: #181515;
+}
+
+.l {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: left;
+    color: #555;
+    font-weight: bold;
+    
+}
+
+
+.in {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.bu {
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: none;
+    color: white;
+    cursor: pointer;
+    background-color: #32a895;
+    width: 100%;
+    font-size: 16px;
+}
+
+.wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+
+
+/* Reset des styles par défaut */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Styles du menu de navigation */
+nav {
+    background-color: #333;
+}
+
+.menu {
+    list-style: none;
+    display: inline-block;
+}
+
+.menu li {
+    display: inline-block;
+    position: relative;
+}
+
+.menu li a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+}
+
+.menu li:hover > ul.dropdown-content {
+    display: block;
+}
+
+/* Styles du menu déroulant */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 140px;
+    z-index: 1;
+}
+
+.dropdown-content li {
+    display: block;
+}
+
+.dropdown-content li a {
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.dropdown-content li:hover {
+    background-color: #555;
+}
+

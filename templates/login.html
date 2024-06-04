@@ -1,0 +1,49 @@
+
+{% extends 'base.html' %}
+{% block title%} Login-Seite {% endblock %}
+
+{% block content %}
+
+<div class="b1">
+    <div class="m1">
+      {% if msg %}
+        <div class="alert alert-danger" role="alert">
+            {{ msg}}
+          </div>
+        {% endif %}
+        <img class="img" src="{{ url_for('static', filename='login_img.jpeg') }}" alt="Avatar" class="avatar">
+        <h3>Entrez vos Identifiants</h3>
+        <form action="" method="post">
+            <label class="l" for="first">
+                  Utilisateur:
+              </label>
+            <input class="in" type="text" 
+                   id="first"
+                   name="username" 
+                   placeholder="Entrez votre nom d'utilisateur" required>
+
+            <label class="l" for="password">
+                  Mot de passe:
+              </label>
+            <input class="in" type="password"
+                   id="password" 
+                   name="password" 
+                   placeholder="Entrez votre mot de passe" required>
+
+            <div class="wrap">
+                <button class="bu" type="submit">
+                        Submit
+                </button>
+                
+            </div>
+        </form>
+        <p>Mot de passe oublie? 
+            <a href="{{url_for('home')}}" 
+             style="text-decoration: none;">
+             Réinitialiser votre mot de passe
+          </a>
+      </p>
+    </div>
+</div>
+
+{% endblock %}
