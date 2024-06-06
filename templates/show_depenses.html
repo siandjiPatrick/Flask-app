@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> liste de depenses</h1>
+<div class="table-responsive">
+    <table class="table">
+      <caption>Liste de Depenses</caption>
+  <thead>
+    
+    <tr>
+     
+      <th scope="col">depenses_id</th>
+      <th scope="col">designation_id</th>
+      <th scope="col">montant</th>
+      <th scope="col">depenses_categorie_id</th> 
+      <th scope="col">responsable_depenses</th> 
+      <th scope="col">Date de creation</th>
+      <th scope="col">Description</th>    
+    </tr>
+  </thead>
+  {% for depense in depenses %}
+  <tbody>
+    <tr>
+
+      <th scope="row">{{depense.depenses_id}}</th>
+      <td>{{depense.designation_id}}</td>
+      <td>{{depense.montant}}</td>
+      <td>{{depense.depenses_categorie_id}}</td>
+      <td>{{depense.responsable_depenses}}</td>
+      <td>{{depense.date}}</td>
+      <td>{{depense.description}}</td>
+    
+    </tr>
+    
+    
+  </tbody>
+  {% endfor %}
+    
+    </table>
+  
+  </div>
+
+  {% endblock %}

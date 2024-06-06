@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> liste d utilisateurs</h1>
+<div class="table-responsive">
+    <table class="table">
+      <caption>liste d utilisateurs</caption>
+  <thead>
+    
+    <tr>
+     
+      <th scope="col">user_id</th>
+      <th scope="col">nom</th>
+      <th scope="col">prenom</th>
+      <th scope="col">E-Mail</th> 
+      <th scope="col">N° Telephone</th> 
+      <th scope="col">Date de creation</th>
+      <th scope="col">Description</th>    
+    </tr>
+  </thead>
+  {% for usr in all_users %}
+  <tbody>
+    <tr>
+      <th scope="row">{{usr.user_id}}</th>
+      <td>{{usr.lastname}}</td>
+      <td>{{usr.username}}</td>
+      <td>{{usr.email}}</td>
+      <td>{{usr.telephone}}</td>
+      <td>{{usr.create_date}}</td>
+      <td>{{usr.description}}</td>
+    
+    </tr>
+    
+    
+  </tbody>
+  {% endfor %}
+    
+    </table>
+  
+  </div>
+
+  {% endblock %}

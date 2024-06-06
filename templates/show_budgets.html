@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> Budgets </h1>
+<div class="table-responsive">
+    <table class="table">
+      <caption>Budgets</caption>
+  <thead>
+    
+    <tr>
+     
+      <th scope="col">budget_id</th>
+      <th scope="col">montant</th>
+      <th scope="col">budget_categorie_id</th>
+      <th scope="col">date</th> 
+      <th scope="col">description</th> 
+
+    </tr>
+  </thead>
+  {% for budget in budgets %}
+  <tbody>
+    <tr>
+
+      <th scope="row">{{budget.budget_id}}</th>
+      <td>{{budget.montant}}</td>
+      <td>{{budget.budget_categorie_id}}</td>
+      <td>{{budget.date}}</td>
+      <td>{{budget.description}}</td>
+
+    
+    </tr>
+    
+    
+  </tbody>
+  {% endfor %}
+    
+    </table>
+  
+  </div>
+
+  {% endblock %}

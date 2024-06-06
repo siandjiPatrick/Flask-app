@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> Revenue familial</h1>
+<div class="table-responsive">
+    <table class="table">
+      <caption>Revenue familial</caption>
+  <thead>
+    
+    <tr>
+     
+      <th scope="col">revenue_id</th>
+      <th scope="col">designation_id</th>
+      <th scope="col">montant</th>
+      <th scope="col">provenance_id</th> 
+      <th scope="col">date</th> 
+      <th scope="col">Date de creation</th>
+      <th scope="col">Description</th>    
+    </tr>
+  </thead>
+  {% for revenue in revenues %}
+  <tbody>
+    <tr>
+      
+      <th scope="row">{{revenue.revenue_id}}</th>
+      <td>{{revenue.designation_id}}</td>
+      <td>{{revenue.montant}}</td>
+      <td>{{revenue.provenance_id}}</td>
+      <td>{{revenue.date}}</td>
+      <td>{{revenue.description}}</td>
+    
+    </tr>
+    
+    
+  </tbody>
+  {% endfor %}
+    
+    </table>
+  
+  </div>
+
+  {% endblock %}

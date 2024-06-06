@@ -6,10 +6,11 @@ from flask_mail import Mail, Message
 import os
 from datetime import datetime
 
-#mcmu qtuc izqa xsam
-#xsng dest xvdv myvl
+
 app = Flask(__name__,)
 
+
+#################### Database Setting ##############################################
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'secretkey'
@@ -29,11 +30,7 @@ app.config['MAIL_PASSWORD'] = 'xsng dest xvdv myvl'  # Remplacez par votre mot d
 mail = Mail(app)
 
 
-
-
-
-#------------------------------------------------------------------------------------------------------------->
-# create Model for our Table User
+#######################  Model(Table creation)  #########################################################
 """
 class User(db.Model, UserMixin):
     __tables__ = "user"
@@ -44,6 +41,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(80), nullable=False)
 """
 
+# -> Table User
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
@@ -62,9 +60,10 @@ class User(db.Model, UserMixin):
     def get_id(self):
         return str(self.user_id)  # Assuming user_id is the primary key
 
+# -> Table Revenue
 class Revenues(db.Model):
     __tablename__ = 'revenues'
-    revenue_ = db.Column(db.Integer, primary_key=True)
+    revenue_id = db.Column(db.Integer, primary_key=True)
     montant = db.Column(db.Float, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     provenance_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
@@ -184,7 +183,16 @@ with app.app_context():
                             description = "",
                            )
             db.session.add(new_categorie)
-        
+
+    depense = Depenses(
+                            
+    montant = 25,
+    depenses_categorie_id = 2,
+    responsable_depenses = 3,
+    description = "mes depenses",
+    designation_id="loyer"
+                           ) 
+    db.session.add(depense)  
     db.session.commit()
     #user1 = User(username='astrid', password=generate_password_hash('1234', method='pbkdf2:sha256'))
             
@@ -248,7 +256,7 @@ def manage_users():
         password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256')
         lastname = request.form.get('lastname')
         email = request.form.get('email')
-        telephone = request.form.get('Numero_telephon   ')
+        telephone = request.form.get('Numero_telephone')
         description = request.form.get('description')
         
 
@@ -299,6 +307,42 @@ def show_categorie_budget():
 
     return render_template('show_categorie_budget.html', user=current_user, categories = categories)
 
+@app.route('/show_list_users')
+@login_required
+def show_list_users():
+
+    all_users = User.query.all()
+    return render_template('show_list_users.html', user=current_user, all_users=all_users)
+
+@app.route('/show_budgets')
+@login_required
+def show_budgets():
+
+    budgets = Budget.query.all()
+    return render_template('show_budgets.html', user=current_user, budgets=budgets)
+
+@app.route('/show_depenses')
+@login_required
+def show_depenses():
+
+    depenses = Depenses.query.all()
+    return render_template('show_depenses.html', user=current_user, depenses=depenses)
+
+@app.route('/show_epargnes')
+@login_required
+def show_epargnes():
+
+    epargnes = Epargne.query.all()
+    return render_template('show_epargnes.html', user=current_user, epargnes=epargnes)
+
+@app.route('/show_revenues')
+@login_required
+def show_revenues():
+
+    revenues = Revenues.query.all()
+    return render_template('show_revenues.html', user=current_user, revenues=revenues)
+
+
 @app.route('/depenses_imprevues')
 @login_required
 def depenses_imprevues():
@@ -328,12 +372,6 @@ def manage_budget():
         montant = request.form.get('montant')
         date = datetime.strptime(date, "%Y-%m-%d")
         categorie = request.form.get('categorie_budget')
-        print(categorie)
-        print(float(montant))
-        print(type(montant))
-        print(date)
-        print(type(date))
-
         
         description = ""
         #categorie='test'
@@ -358,6 +396,63 @@ def manage_budget():
             return redirect(url_for('manage_budget'))
     return render_template('manage_budget.html', user=current_user, categories = categories)
 
+###### Settig ####################
+
+@app.route('/manage_depenses', methods=['GET', 'POST'])
+@login_required
+def manage_depenses():
+    depenses = Depenses.query.all()
+    all_users = User.query.all()
+    depenses_categories = DepensesCategorie.query.all()
+    designations = Designation.query.all()
+    
+
+    depenses_id = db.Column(db.Integer, primary_key=True)
+   
+  
+    responsable_depenses = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    description = db.Column(db.String(200), nullable=True)
+    designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
+
+    if request.method == 'POST':
+        date = request.form.get('date')
+        date = datetime.strptime(date, "%Y-%m-%d")
+        montant = request.form.get('montant')
+        depenses_categorie = request.form.get('depenses_categorie')
+        montant = request.form.get('montant')
+        responsable_depenses = request.form.get('responsable_depenses')
+        designation = request.form.get('designation')
+        description = request.form.get('description')
+    
+
+        print(depenses_categorie)
+        print(montant)
+        print(depenses_categorie)
+        print(montant)
+        print(responsable_depenses)
+        print(designation)
+        print(description)
+                
+        if request.form.get('categorie_budget') == "new":
+            # create new budget categorie
+            return redirect(url_for('manage_budget_categorie'))
+        else:
+            a = BudgetCategorie.query.filter_by(budget_categorie_name = categorie).first().budget_categorie_id
+            print(a)
+            new_budget = Budget( 
+                                       
+                                montant = montant,
+                                description = description,
+                                date=date,
+                                budget_categorie_id=  a
+            )
+        
+
+            db.session.add(new_budget)
+            db.session.commit()
+            return redirect(url_for('manage_budget'))
+    return render_template('manage_budget.html', user=current_user, depenses = depenses)
+ö
 @app.route('/manage_budget_categorie', methods=['GET', 'POST'])
 @login_required
 def manage_budget_categorie():
@@ -379,6 +474,74 @@ def manage_budget_categorie():
  
     return render_template('manage_budget_categorie.html', user=current_user)
 
+
+@app.route('/manage_revenues', methods=['GET', 'POST'])
+@login_required
+def manage_revenues():
+    
+    if request.method == 'POST':
+
+        categorie = request.form.get('new_categorie')
+        description = request.form.get('description')
+        print(categorie)
+ 
+        new_categorie = BudgetCategorie(
+                            budget_categorie_name = categorie,
+                            description = description,                      
+                        )
+    
+        db.session.add(new_categorie)
+        db.session.commit()
+        return redirect(url_for('manage_revenues'))
+ 
+    return render_template('manage_revenues.html', user=current_user)
+
+
+@app.route('/manage_designations', methods=['GET', 'POST'])
+@login_required
+def manage_designations():
+    
+    if request.method == 'POST':
+
+        categorie = request.form.get('new_categorie')
+        description = request.form.get('description')
+        print(categorie)
+ 
+        new_categorie = BudgetCategorie(
+                            budget_categorie_name = categorie,
+                            description = description,                      
+                        )
+    
+        db.session.add(new_categorie)
+        db.session.commit()
+        return redirect(url_for('manage_designations'))
+ 
+    return render_template('manage_designations.html', user=current_user)
+
+
+@app.route('/manage_epargne', methods=['GET', 'POST'])
+@login_required
+def manage_epargne():
+    
+    if request.method == 'POST':
+
+        categorie = request.form.get('new_categorie')
+        description = request.form.get('description')
+        print(categorie)
+ 
+        new_categorie = BudgetCategorie(
+                            budget_categorie_name = categorie,
+                            description = description,                      
+                        )
+    
+        db.session.add(new_categorie)
+        db.session.commit()
+        return redirect(url_for('manage_epargne'))
+ 
+    return render_template('manage_epargne.html', user=current_user)
+
+############################## Budget #########################################
+
 @app.route('/budget_imprevues')
 @login_required
 def budget_imprevues():
@@ -399,9 +562,6 @@ def epargnes():
 @login_required
 def send_email():
     return render_template('send_email.html', user=current_user)
-
-
-
 
 
 if __name__ == '__main__':
