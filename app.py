@@ -5,27 +5,29 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_mail import Mail, Message
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
 
+load_dotenv()
 app = Flask(__name__,)
 
 
 #################### Database Setting ##############################################
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'secretkey'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS")
+app.config['SECRET_KEY'] = os.getenv("APP_SECRET_KEY")
 
 db = SQLAlchemy(app)
 
 
 
 # Configuration Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Utilisez votre serveur de messagerie
-app.config['MAIL_PORT'] = 587
+app.config['MAIL_SERVER'] = os.getenv("MAIL_SERVER")  # Utilisez votre serveur de messagerie
+app.config['MAIL_PORT'] =os.getenv("MAIL_PORT")
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
-app.config['MAIL_USERNAME'] = 'gcptestpatrick@gmail.com'  # Remplacez par votre adresse e-mail
-app.config['MAIL_PASSWORD'] = 'xsng dest xvdv myvl'  # Remplacez par votre mot de passe d'application
+app.config['MAIL_USERNAME'] = os.getenv("MAIL_USERNAME")  # Remplacez par votre adresse e-mail
+app.config['MAIL_PASSWORD'] = os.getenv("MAIL_PASSWORD")  # Remplacez par votre mot de passe d'application
 
 mail = Mail(app)
 
