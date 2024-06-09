@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block title%} Manage Revenus {% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> Ajoutez un nouveau Revenue </h1>
+<div class="b1">
+    <div class="m1">
+      
+        <form action="" method="post">
+
+            
+
+            
+                 
+                  {% if designations == [] %}
+                  <label class="l" for="new_designation"> entrez une Designation: </label>
+                  <input class="in" type="text" 
+                      id="new_designation"
+                      name="new_designation" 
+                      placeholder="Designation" required>
+                    {% else %}
+                    <label class="l" for="designation">Choississez la Designation: </label>
+                    <select  class="in" name="designation" id="designation">
+                        <option value="">--Please choose an option--</option>
+                        {% for designation in designations %}
+                    <option value="{{ designation.designation_name }}">{{ designation.designation_name }}</option>
+                    {% endfor %}
+                  {% endif %}
+                
+                              
+              </select>
+
+            <label class="l" for="provenance">De qui provient ce Revenue: </label>
+
+            <select  class="in" name="provenance" id="provenance">
+                <option value="">--Please choose an option--</option>
+                {% for usr in all_users %}
+                  <option value="{{ usr.lastname }}">{{ usr.lastname }}</option>
+                {% endfor %}
+                              
+              </select>
+
+              <label class="l" for="montant">montant du Revenue: </label>
+    
+              <input class="in" type="number" name="montant" placeholder="1.0" step="0.01" min="0" max="10000" />
+        
+              <p><label class="l" for="date">date de la revenue:</label>
+
+                <input class="in" type="date" id="date" name="date" min="2023-01" />
+
+                        <label class="l" for="description">Entrez une Description de la categorie: </label>
+                        <textarea class="in" id="description" name="description" rows="5" cols="33"  placeholder="description de la categorie..." >
+                         
+                        </textarea>
+                
+                <div class="wrap">
+                    <button class="bu" type="submit">
+                            creer
+                    </button>
+                    
+                </div>
+        </form>
+       
+    </div>
+</div>
+
+{% endblock %}

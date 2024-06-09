@@ -1,15 +1,15 @@
 
 {% extends 'base.html' %}
-{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+{% block title%} Liste de Depenses {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> liste de depenses</h1>
+<h1 class="text-center"> Liste de depenses</h1>
 <div class="table-responsive">
     <table class="table">
       <caption>Liste de Depenses</caption>
   <thead>
-    
+  
     <tr>
      
       <th scope="col">depenses_id</th>
@@ -40,7 +40,7 @@
   {% endfor %}
     
     </table>
-  
+    <a href="{{ url_for('manage_depenses')}}">ajouter une nouvelle depense</a>
   </div>
 
   {% endblock %}

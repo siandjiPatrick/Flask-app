@@ -1,13 +1,13 @@
 
 {% extends 'base.html' %}
-{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+{% block title%} Liste de Revenus {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> Revenue familial</h1>
+<h1 class="text-center"> Liste de Revenus</h1>
 <div class="table-responsive">
     <table class="table">
-      <caption>Revenue familial</caption>
+      <caption>Liste de Revenus</caption>
   <thead>
     
     <tr>
@@ -39,7 +39,7 @@
   {% endfor %}
     
     </table>
-  
+    <a href="{{ url_for('manage_revenues')}}">ajouter un nouveau revenu</a>
   </div>
 
   {% endblock %}

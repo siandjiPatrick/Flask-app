@@ -1,0 +1,39 @@
+
+{% extends 'base.html' %}
+{% block title%} Liste des types d epargnes{% endblock %}
+
+{% block content %}
+
+<h1 class="text-center"> liste des differents type d epargnes </h1>
+<div class="table-responsive">
+    <table class="table">
+      <caption>liste des differents types d epargnes</caption>
+  <thead>
+    
+    <tr>
+     
+      <th scope="col">epargne_categorie_id</th>
+      <th scope="col">create_date</th>
+      <th scope="col">epargne_categorie_name</th>
+      <th scope="col">description</th>    
+    </tr>
+  </thead>
+  {% for epargne_categorie in epargne_categories%}
+  <tbody>
+    <tr>
+      <th scope="row">{{epargne_categorie.epargne_categorie_id}}</th>
+      <td>{{epargne_categorie.create_date}}</td>
+      <td>{{epargne_categorie.budget_epargne_categorie_name}}</td>
+      <td>{{epargne_categorie.description}}</td>
+    
+    </tr>
+    
+    
+  </tbody>
+  {% endfor %}
+    
+    </table>
+   
+  </div>
+
+  {% endblock %}

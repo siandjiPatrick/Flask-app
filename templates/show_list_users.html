@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %}
-{% block title%} Liste des diffentes Categories de Budget {% endblock %}
+{% block title%} Liste d utilisteurs {% endblock %}
 
 {% block content %}
 
@@ -39,7 +39,7 @@
   {% endfor %}
     
     </table>
-  
+    <a href="{{ url_for('manage_users')}}">ajouter un nouveau utilisateur</a>
   </div>
 
   {% endblock %}
