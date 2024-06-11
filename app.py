@@ -53,7 +53,6 @@ class User(db.Model, UserMixin):
     telephone = db.Column(db.String(20), unique=True, nullable=True)
     description = db.Column(db.String(200), nullable=True)
     password = db.Column(db.String(80), nullable=False)
-    password = db.Column(db.String(80), nullable=False)
     create_date = db.Column(db.DateTime, default=datetime.utcnow)
     argent_de_poche = db.relationship('ArgentDePoche', backref='beneficiaire', lazy=True)
     depenses = db.relationship('Depenses', backref='responsible', lazy=True)
@@ -62,6 +61,9 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return str(self.user_id)  # Assuming user_id is the primary key
+    
+    def __repr__(self) -> str:
+        return f"use: {self.email}"
 
 # -> Table Revenue
 class Revenues(db.Model):
@@ -87,11 +89,16 @@ class Designation(db.Model):
 class ArgentDePoche(db.Model):
     __tablename__ = 'argent_de_poche'
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Float, nullable=False)
+    montant = db.Column(db.Float, nullable=False)
     description = db.Column(db.String(100), nullable=True)
     date = db.Column(db.DateTime, default=datetime.utcnow)
     beneficiaire_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
 
+class DepensesCategorie(db.Model):
+    __tablename__ = 'depenses_categorie'
+    depenses_categorie_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    depenses = db.relationship('Depenses', backref='categorie', lazy=True)
 
 class Depenses(db.Model):
     __tablename__ = 'depenses'
@@ -103,11 +110,7 @@ class Depenses(db.Model):
     description = db.Column(db.String(200), nullable=True)
     designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
 
-class DepensesCategorie(db.Model):
-    __tablename__ = 'depenses_categorie'
-    depenses_categorie_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    depenses = db.relationship('Depenses', backref='categorie', lazy=True)
+
 
 
 
@@ -149,9 +152,16 @@ class Budget(db.Model):
 
 #------------------------------------------------------------------------------------------------------------->
 ############# login system route ################
+users = [
+    {
 
+    }
+]
 with app.app_context():
     db.create_all()
+    
+    d = Budget.query.all()
+    print(d)
     #users = ["astrid","patrick", "admin"]
     if not User.query.filter_by(username='patrick').first() :
             user1 = User( username = "patrick",
@@ -159,7 +169,7 @@ with app.app_context():
                         email = "siandjipatrick@yahoo.fr",
                         telephone = "0176-16-37-08-76",
                         description = "",
-                        password = generate_password_hash('1234', method='pbkdf2:sha256'))
+                        password = generate_password_hash(os.getenv("PATRICK_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user1)
             #db.session.commit()
     if not User.query.filter_by(username='astrid').first() :
@@ -168,7 +178,7 @@ with app.app_context():
                         email = "astridmedom@yahoo.fr",
                         telephone = "0176-21-43-15-48",
                         description = "",
-                        password = generate_password_hash('1234', method='pbkdf2:sha256'))
+                        password = generate_password_hash(os.getenv("ASTRID_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user2)
             #db.session.commit()
     if not User.query.filter_by(username='admin').first() :      
@@ -177,7 +187,7 @@ with app.app_context():
                         email = "gcptestpatrick@gmail.com",
                         telephone = "0176-25-45-36-78",
                         description = "",
-                        password = generate_password_hash('admin', method='pbkdf2:sha256'))
+                        password = generate_password_hash(os.getenv("ASTRID_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
 
     if not BudgetCategorie.query.filter_by(budget_categorie_name='new').first() :      
@@ -248,11 +258,17 @@ def login():
         password = request.form['password']
 
         user = User.query.filter_by(username=username).first()
+        email = User.query.filter_by(email=username).first()
+        print(f"meine email: {email}")
         
-        
-        if user and check_password_hash(user.password, password):
+        if user and check_password_hash(user.password, password): 
           
             login_user(user)
+            return redirect(url_for('home'))
+        
+        elif email and check_password_hash(email.password, password):
+            
+            login_user(email)
             return redirect(url_for('home'))
         else:
             message = 'Invalid username or password'
@@ -280,9 +296,11 @@ def manage_users():
         email = request.form.get('email')
         telephone = request.form.get('Numero_telephone')
         description = request.form.get('description')
-        profil_bild = os.abspath(request.form.get('profil_bild'))
-        print(type(profil_bild))
-        print(profil_bild)
+        profil_bild = request.files['profil_bild']
+        profil_bild_path = os.path.join('/tmp', str(profil_bild))
+        profil_bild.save(profil_bild_path)
+        print(type(profil_bild_path))
+        print(profil_bild_path)
 
         #new_user = User(username=usr, password=password)
 
@@ -304,7 +322,7 @@ def manage_users():
        
            msg = Message('Bienvenue sur notre plateforme!', recipients=[new_user.username])
            msg.html = render_template('send_email.html', user=current_user)
-           msg.sender='gcptestpatrick@gmail.com'
+           msg.sender=os.getenv("MAIL_USERNAME")
            #image_file = request.files['image_file']
           
            # Enregistrement du fichier temporaire sur le serveur
@@ -654,5 +672,5 @@ def reset_password_email():
 
 if __name__ == '__main__':
    
-
+   
     app.run(debug=True, port=5555)
