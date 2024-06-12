@@ -177,7 +177,7 @@ with app.app_context():
                         email = "siandjipatrick@yahoo.fr",
                         telephone = "0176-16-37-08-76",
                         description = "",
-                        profil_picture="login_img.jpeg",
+                        profile_picture="login_img.jpeg",
                         password = generate_password_hash(os.getenv("PATRICK_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user1)
             #db.session.commit()
@@ -186,7 +186,7 @@ with app.app_context():
                         lastname = "medom",
                         email = "astridmedom@yahoo.fr",
                         telephone = "0176-21-43-15-48",
-                        profil_picture="",
+                        profile_picture="as_bild.png",
                         description = "",
                         password = generate_password_hash(os.getenv("ASTRID_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user2)
@@ -196,7 +196,7 @@ with app.app_context():
                         lastname = "admin",
                         email = "gcptestpatrick@gmail.com",
                         telephone = "0176-25-45-36-78",
-                        profil_picture="",
+                        profile_picture="",
                         description = "",
                         password = generate_password_hash(os.getenv("ADMIN_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
