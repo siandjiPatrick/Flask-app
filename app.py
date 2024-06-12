@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, redirect,request, flash, sess
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from flask_mail import Mail, Message
 import os
 from datetime import datetime
@@ -12,10 +13,16 @@ load_dotenv()
 app = Flask(__name__,)
 
 
+
 #################### Database Setting ##############################################
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv("SQLALCHEMY_TRACK_MODIFICATIONS")
 app.config['SECRET_KEY'] = os.getenv("APP_SECRET_KEY")
+
+app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
 
@@ -53,6 +60,7 @@ class User(db.Model, UserMixin):
     telephone = db.Column(db.String(20), unique=True, nullable=True)
     description = db.Column(db.String(200), nullable=True)
     password = db.Column(db.String(80), nullable=False)
+    profile_picture = db.Column(db.String(120), nullable=True)
     create_date = db.Column(db.DateTime, default=datetime.utcnow)
     argent_de_poche = db.relationship('ArgentDePoche', backref='beneficiaire', lazy=True)
     depenses = db.relationship('Depenses', backref='responsible', lazy=True)
@@ -169,6 +177,7 @@ with app.app_context():
                         email = "siandjipatrick@yahoo.fr",
                         telephone = "0176-16-37-08-76",
                         description = "",
+                        profil_picture="login_img.jpeg",
                         password = generate_password_hash(os.getenv("PATRICK_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user1)
             #db.session.commit()
@@ -177,6 +186,7 @@ with app.app_context():
                         lastname = "medom",
                         email = "astridmedom@yahoo.fr",
                         telephone = "0176-21-43-15-48",
+                        profil_picture="",
                         description = "",
                         password = generate_password_hash(os.getenv("ASTRID_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user2)
@@ -186,6 +196,7 @@ with app.app_context():
                         lastname = "admin",
                         email = "gcptestpatrick@gmail.com",
                         telephone = "0176-25-45-36-78",
+                        profil_picture="",
                         description = "",
                         password = generate_password_hash(os.getenv("ADMIN_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
@@ -297,19 +308,24 @@ def manage_users():
         telephone = request.form.get('Numero_telephone')
         description = request.form.get('description')
         profil_bild = request.files['profil_bild']
-        profil_bild_path = os.path.join('/tmp', str(profil_bild))
+        #profil_bild_path = os.path.join('/tmp', str(profil_bild))
         #profil_bild.save(profil_bild_path)
-        print(type(profil_bild_path))
-        print(profil_bild_path)
+      
 
         #new_user = User(username=usr, password=password)
-
+        #if profil_bild:
+        filename = secure_filename(profil_bild.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        profil_bild.save(file_path)
+        
         new_user = User( username = usr,
                     lastname = lastname,
                     email = email,
                     telephone = telephone,
                     description = description,
-                    password = password)
+                    password = password,
+                    profile_picture=filename
+                    )
        
 
         if not User.query.filter_by(email=new_user.email).first() :
