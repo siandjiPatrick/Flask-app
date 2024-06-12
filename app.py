@@ -298,7 +298,7 @@ def manage_users():
         description = request.form.get('description')
         profil_bild = request.files['profil_bild']
         profil_bild_path = os.path.join('/tmp', str(profil_bild))
-        profil_bild.save(profil_bild_path)
+        #profil_bild.save(profil_bild_path)
         print(type(profil_bild_path))
         print(profil_bild_path)
 
@@ -673,4 +673,4 @@ def reset_password_email():
 if __name__ == '__main__':
    
    
-    app.run(debug=True, port=5555)
+    app.run(debug=True, port=5000)
