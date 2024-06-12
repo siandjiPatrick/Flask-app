@@ -187,7 +187,7 @@ with app.app_context():
                         email = "gcptestpatrick@gmail.com",
                         telephone = "0176-25-45-36-78",
                         description = "",
-                        password = generate_password_hash(os.getenv("ASTRID_USER_PASSWORD"), method='pbkdf2:sha256'))
+                        password = generate_password_hash(os.getenv("ADMIN_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
 
     if not BudgetCategorie.query.filter_by(budget_categorie_name='new').first() :      
