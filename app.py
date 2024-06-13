@@ -672,6 +672,28 @@ def send_email():
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def reset_password():
+    if request.method == "POST":
+        new_pass = request.form.get('new_password')
+        confirm_pass = request.form.get('confirm_password')
+        email = request.form.get('email')
+        print(email)
+        print(confirm_pass)
+        print(new_pass)
+        
+        if new_pass == confirm_pass:
+            print("passport correct")
+            for usr in User.query.all():
+                #print(usr.email)
+                if usr.email == email:
+                    reset_user = User.query.filter_by(email=email).first()   
+                    print("email correct")
+                    
+                    reset_user.password = generate_password_hash(new_pass, method='pbkdf2:sha256')
+                    print(reset_user.telephone)
+                    #current_user.password = confirm_pass
+                    db.session.commit()
+
+        return redirect(url_for('login'))
     return render_template('reset_password.html', user=current_user)
 
 @app.route('/reset_password_email', methods=['GET', 'POST'])
@@ -683,7 +705,7 @@ def reset_password_email():
         msg.html = render_template('send_email.html')
         msg.sender='gcptestpatrick@gmail.com'
         mail.send(msg)
-        return render_template('home.html', user=current_user)
+        return redirect(url_for('login'))
     return render_template('reset_password_email.html', user=current_user)
 
 if __name__ == '__main__':
