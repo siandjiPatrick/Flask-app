@@ -8,7 +8,7 @@
         <h5 class="mb-4">Embarquez dès maintenant dans l'aventure de la planification de votre budget familial!</h5>
     {% else %}
         <h1 class="my-4">Prêt à prendre le contrôle de vos finances familiales?</h1>
-        <h5 class="text-primary mb-4">Inscrivez-vous dès maintenant</h5>
+        <a href="{{ url_for('login') }}"><h5 class="text-primary mb-4">Inscrivez-vous dès maintenant</h5></a>
         <p class="mb-4">Notre plateforme vous offre les outils et la simplicité dont vous avez besoin pour commencer dès aujourd'hui.
             Ne laissez pas les finances familiales être un casse-tête - commencez à planifier votre avenir financier dès maintenant!</p>
     {% endif %}
