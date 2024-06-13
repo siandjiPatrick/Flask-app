@@ -1,34 +1,27 @@
 {% extends 'base.html' %}
-{% block title%} Manage Designations {% endblock %}
+{% block title %}Manage Designations{% endblock %}
 
 {% block content %}
-
-<h1 class="text-center"> Ajoutez une Designation </h1>
-<div class="b1">
-    <div class="m1">
-      
-        <form action="" method="post">
-        
-                    <label class="l" for="designation"> Entrez le nom de la Designation *: </label>
-                    <input class="in" type="text" 
-                        id="designation"
-                        name="designation" 
-                        placeholder="designation" required>
-
-                        <label class="l" for="description">Entrez une Description a la designation: </label>
-                        <textarea class="in" id="description" name="description" rows="5" cols="33"  placeholder="description de la categorie..." >
-                         
-                        </textarea>
-                
-                <div class="wrap">
-                    <button class="bu" type="submit">
-                            creer
-                    </button>
-                    
+<div class="container my-5">
+    <h1 class="text-center mb-4">Ajoutez une Désignation</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="designation" class="form-label">Entrez le nom de la Désignation *:</label>
+                    <input type="text" class="form-control" id="designation" name="designation" placeholder="Désignation" required>
                 </div>
-        </form>
-       
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une Description à la Désignation:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la désignation..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

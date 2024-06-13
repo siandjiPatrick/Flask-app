@@ -1,40 +1,36 @@
-
 {% extends 'base.html' %}
-{% block title%} Liste de designations  {% endblock %}
+{% block title %} Liste de designations {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> Liste de designations  </h1>
-<div class="table-responsive">
-    <table class="table">
-      <caption>Liste de designations </caption>
-  <thead>
-    
-    <tr>
-     
-      <th scope="col">designation_id</th>
-      <th scope="col">create_date</th>
-      <th scope="col">designation_name</th>
-      <th scope="col">description</th>    
-    </tr>
-  </thead>
-  {% for designation in designations %}
-  <tbody> 
-    <tr>
-      <th scope="row">{{designation.designation_id}}</th>
-      <td>{{designation.create_date}}</td>
-      <td>{{designation.designation_name}}</td>
-      <td>{{designation.description}}</td>
-    
-    </tr>
-    
-    
-  </tbody>
-  {% endfor %}
-    
-    </table>
-    <a class="btn btn-primary bg-success position-absolute top-90 start-50 translate-middle-y" href="{{ url_for('manage_designations')}}" role="button">ajouter une nouvelle Designation</a>
-    
-  </div>
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste de Désignations</h1>
 
-  {% endblock %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste de Désignations</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Nom de la Désignation</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for designation in designations %}
+                <tr>
+                    <th scope="row">{{ designation.designation_id }}</th>
+                    <td>{{ designation.create_date }}</td>
+                    <td>{{ designation.designation_name }}</td>
+                    <td>{{ designation.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ url_for('manage_designations') }}" class="btn btn-primary mt-3">Ajouter une nouvelle Désignation</a>
+</div>
+
+{% endblock %}

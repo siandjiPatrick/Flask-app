@@ -1,34 +1,25 @@
 {% extends 'base.html' %}
-{% block title%}  {% endblock %}
+{% block title %}Créer une catégorie de Budget{% endblock %}
 
 {% block content %}
-
-<h1 class="text-center"> creation d une categorie de Budget </h1>
-<div class="b1">
-    <div class="m1">
-      
-        <form action="" method="post">
-        
-                    <label class="l" for="new_categorie"> Entrez le nom de la nouvelle categorie de budget: </label>
-                    <input class="in" type="text" 
-                        id="new_categorie"
-                        name="new_categorie" 
-                        placeholder="Entrez une nouvelle categorie" required>
-
-                        <label class="l" for="description">Entrez une Description de la categorie: </label>
-                        <textarea class="in" id="description" name="description" rows="5" cols="33"  placeholder="description de la categorie..." >
-                         
-                        </textarea>
-                
-                <div class="wrap">
-                    <button class="bu" type="submit">
-                            creer
-                    </button>
-                    
+<div class="container my-5">
+    <h1 class="text-center mb-4">Création d'une catégorie de Budget</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="new_categorie" class="form-label">Entrez le nom de la nouvelle catégorie de budget:</label>
+                    <input type="text" class="form-control" id="new_categorie" name="new_categorie" placeholder="Entrez une nouvelle catégorie" required>
                 </div>
-        </form>
-       
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une Description de la catégorie:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la catégorie..." required></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

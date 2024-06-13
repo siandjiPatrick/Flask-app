@@ -1,36 +1,31 @@
-
 {% extends 'base.html' %}
-{% block title%} Liste des types de depenses {% endblock %}
+{% block title %} Liste des types de dépenses {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> liste des differents Types de Depenses </h1>
-<div class="table-responsive">
-    <table class="table">
-      <caption>liste des types de depenses</caption>
-  <thead>
-    
-    <tr>
-     
-      <th scope="col">depenses_categorie_id</th>
-      <th scope="col">depenses_categorie_name</th>
-         
-    </tr>
-  </thead>
-  {% for depenses_categorie in depenses_categories%}
-  <tbody>
-    <tr>
-      <th scope="row">{{depenses_categorie.depenses_categorie_id}}</th>
-      <td>{{depenses_categorie.name}}</td>
-    
-    </tr>
-    
-    
-  </tbody>
-  {% endfor %}
-    
-    </table>
-  
-  </div>
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste des différents Types de Dépenses</h1>
 
-  {% endblock %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste des types de dépenses</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom de la catégorie</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for depense_categorie in depenses_categories %}
+                <tr>
+                    <th scope="row">{{ depense_categorie.depenses_categorie_id }}</th>
+                    <td>{{ depense_categorie.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

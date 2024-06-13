@@ -1,46 +1,42 @@
-
 {% extends 'base.html' %}
-{% block title%} Liste d epargnes {% endblock %}
+{% block title %} Liste d'épargnes {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> Liste D epargne</h1>
-<div class="table-responsive">
-    <table class="table">
-      <caption>Liste d epargne</caption>
-  <thead>
-    
-    <tr>
-     
-      <th scope="col">epargne_id</th>
-      <th scope="col">designation_id</th>
-      <th scope="col">montant</th>
-      <th scope="col">epargne_categorie_id</th> 
-      <th scope="col">provenance_id</th> 
-      <th scope="col">Date</th>
-      <th scope="col">Description</th>    
-    </tr>
-  </thead>
-  {% for epargne in epargnes %}
-  <tbody>
-    <tr>
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste d'épargnes</h1>
 
-      <th scope="row">{{epargne.epargne_id}}</th>
-      <td>{{epargne.designation_id}}</td>
-      <td>{{epargne.montant}}</td>
-      <td>{{epargne.epargne_categorie_id}}</td>
-      <td>{{epargne.provenance_id}}</td>
-      <td>{{epargne.Date}}</td>
-      <td>{{epargne.description}}</td>
-    
-    </tr>
-    
-    
-  </tbody>
-  {% endfor %}
-    
-    </table>
-    <a href="{{ url_for('manage_epargnes')}}">ajouter une nouvelle epargne</a>
-  </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste d'épargnes</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">ID de la Désignation</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">ID de la Catégorie d'épargne</th>
+                    <th scope="col">ID de Provenance</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for epargne in epargnes %}
+                <tr>
+                    <th scope="row">{{ epargne.epargne_id }}</th>
+                    <td>{{ epargne.designation_id }}</td>
+                    <td>{{ epargne.montant }}</td>
+                    <td>{{ epargne.epargne_categorie_id }}</td>
+                    <td>{{ epargne.provenance_id }}</td>
+                    <td>{{ epargne.Date }}</td>
+                    <td>{{ epargne.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-  {% endblock %}
+    <a href="{{ url_for('manage_epargnes') }}" class="btn btn-primary mt-3">Ajouter une nouvelle épargne</a>
+</div>
+
+{% endblock %}

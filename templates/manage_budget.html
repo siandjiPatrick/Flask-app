@@ -1,48 +1,41 @@
 {% extends 'base.html' %}
-{% block title%} Manage Budget {% endblock %}
+{% block title %}Manage Budget{% endblock %}
 
 {% block content %}
-
-<h1 class="text-center"> Creation d un Budget </h1>
-<div class="b1">
-    <div class="m1">
-      
-        <form action="" method="post">
-            <p><label class="l" for="date">Start month:</label>
-
-                <input class="in" type="date" id="date" name="date" min="2023-01" value="2024-06" /></p>
-
-        <label class="l" for="categorie_budget">Choisissez dans quelle categorie se situe votre budget:</label>
-
-                <select  class="in" name="categorie_budget" id="categorie_budget">
-                  <option value="">--Please choose an option--</option>
-                  {% for c in categories %}
-                    {% if c == [] %}
-                    <h1>test</h1>
-                    <label class="l" for="new_categorie"> nom de la categorie: </label>
-                    <input class="in" type="text" 
-                        id="new_categorie"
-                        name="new_categorie" 
-                        placeholder="Entrez une nouvelle categorie" required>
-                    {% endif %}
-                    <option value="{{ c.budget_categorie_name }}">{{ c.budget_categorie_name }}</option>
-                  {% endfor %}
-                
-                </select>
-
-        <label class="l" for="montant">montant du budget: </label>
-    
-                <input class="in" type="number" name="montant" placeholder="1.0" step="0.01" min="0" max="10000" />
-                
-                <div class="wrap">
-                    <button class="bu" type="submit">
-                            ajouter
-                    </button>
-                    
+<div class="container my-5">
+    <h1 class="text-center mb-4">Création d'un Budget</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="date" class="form-label">Start month:</label>
+                    <input type="date" class="form-control" id="date" name="date" min="2023-01" value="2024-06" />
                 </div>
-        </form>
-       
+                <div class="mb-3">
+                    <label for="categorie_budget" class="form-label">Choisissez dans quelle catégorie se situe votre budget:</label>
+                    <select class="form-select" name="categorie_budget" id="categorie_budget" required>
+                        <option value="">--Please choose an option--</option>
+                        {% for c in categories %}
+                            {% if c == [] %}
+                                <h1>test</h1>
+                                <div class="mb-3">
+                                    <label for="new_categorie" class="form-label">Nom de la catégorie:</label>
+                                    <input type="text" class="form-control" id="new_categorie" name="new_categorie" placeholder="Entrez une nouvelle catégorie" required>
+                                </div>
+                            {% endif %}
+                            <option value="{{ c.budget_categorie_name }}">{{ c.budget_categorie_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="montant" class="form-label">Montant du budget:</label>
+                    <input type="number" class="form-control" name="montant" placeholder="1.0" step="0.01" min="0" max="10000" required />
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}

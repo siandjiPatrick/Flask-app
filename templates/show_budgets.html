@@ -1,44 +1,40 @@
-
 {% extends 'base.html' %}
-{% block title%} Liste de Budgets {% endblock %}
+{% block title %} Liste de Budgets {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> Liste de Budgets </h1>
-<div class="table-responsive">
-    <table class="table">
-      <caption>Liste de Budgets</caption>
-  <thead>
-    
-    <tr>
-     
-      <th scope="col">budget_id</th>
-      <th scope="col">montant</th>
-      <th scope="col">budget_categorie_id</th>
-      <th scope="col">date</th> 
-      <th scope="col">description</th> 
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste de Budgets</h1>
 
-    </tr>
-  </thead>
-  {% for budget in budgets %}
-  <tbody>
-    <tr>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <caption>Liste de Budgets</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for budget in budgets %}
+                <tr>
+                    <th scope="row">{{ budget.budget_id }}</th>
+                    <td>{{ budget.montant }}</td>
+                    <td>{{ budget.budget_categorie_id }}</td>
+                    <td>{{ budget.date }}</td>
+                    <td>{{ budget.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-      <th scope="row">{{budget.budget_id}}</th>
-      <td>{{budget.montant}}</td>
-      <td>{{budget.budget_categorie_id}}</td>
-      <td>{{budget.date}}</td>
-      <td>{{budget.description}}</td>
+    <div class="text-center mt-4">
+        <a href="{{ url_for('manage_budget') }}" class="btn btn-primary">Ajouter un nouveau budget</a>
+    </div>
+</div>
 
-    
-    </tr>
-    
-   
-  </tbody>
-  {% endfor %}
-    
-    </table>
-    <a href="{{ url_for('manage_budget')}}">ajouter un nouveau budget</a>
-  </div>
-
-  {% endblock %}
+{% endblock %}

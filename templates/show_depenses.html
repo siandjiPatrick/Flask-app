@@ -1,46 +1,43 @@
-
 {% extends 'base.html' %}
-{% block title%} Liste de Depenses {% endblock %}
+{% block title %} Liste de Dépenses {% endblock %}
 
 {% block content %}
 
-<h1 class="text-center"> Liste de depenses</h1>
-<div class="table-responsive">
-    <table class="table">
-      <caption>Liste de Depenses</caption>
-  <thead>
-  
-    <tr>
-     
-      <th scope="col">depenses_id</th>
-      <th scope="col">designation_id</th>
-      <th scope="col">montant</th>
-      <th scope="col">depenses_categorie_id</th> 
-      <th scope="col">responsable_depenses</th> 
-      <th scope="col">Date de creation</th>
-      <th scope="col">Description</th>    
-    </tr>
-  </thead>
-  {% for depense in depenses %}
-  <tbody>
-    <tr>
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste de Dépenses</h1>
 
-      <th scope="row">{{depense.depenses_id}}</th>
-      <td>{{depense.designation_id}}</td>
-      <td>{{depense.montant}}</td>
-      <td>{{depense.depenses_categorie_id}}</td>
-      <td>{{depense.responsable_depenses}}</td>
-      <td>{{depense.date}}</td>
-      <td>{{depense.description}}</td>
-    
-    </tr>
-    
-    
-  </tbody>
-  {% endfor %}
-    
-    </table>
-    <a href="{{ url_for('manage_depenses')}}">ajouter une nouvelle depense</a>
-  </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste de Dépenses</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">ID de la Designation</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">ID de la Catégorie</th>
+                    <th scope="col">Responsable</th>
+                    <th scope="col">Date de Création</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for depense in depenses %}
+                <tr>
+                    <th scope="row">{{ depense.depenses_id }}</th>
+                    <td>{{ depense.designation_id }}</td>
+                    <td>{{ depense.montant }}</td>
+                    <td>{{ depense.depenses_categorie_id }}</td>
+                    <td>{{ depense.responsable_depenses }}</td>
+                    <td>{{ depense.date }}</td>
+                    <td>{{ depense.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-  {% endblock %}
+    <a href="{{ url_for('manage_depenses') }}" class="btn btn-primary mt-3">Ajouter une nouvelle dépense</a>
+
+</div>
+
+{% endblock %}

@@ -1,61 +1,52 @@
 {% extends 'base.html' %}
-{% block title%} Manage Users {% endblock %}
+{% block title %}Manage Users{% endblock %}
 
 {% block content %}
-<h1 class="text-center"> Manage Users</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Manage Users</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Prénom:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Entrez votre prénom" required>
+                </div>
 
-<div class="b1">
-    <div class="m1">
-      
-        <form action="" method="post" enctype="multipart/form-data">
-            <label class="l" for="username"> Prenom: </label>
-                <input class="in" type="text" 
-                   id="username"
-                   name="username" 
-                   placeholder="Entrez votre prenom" required>
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Nom:</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Entrez votre nom" required>
+                </div>
 
-            <label class="l" for="lastname"> Nom: </label>
-                <input class="in" type="text" 
-                    id="lastname"
-                    name="lastname" 
-                    placeholder="Entrez votre nom" required>
-            
-            <label class="l" for="email"> E-Mail: </label>
-                  <input class="in"  type="email" id="email"  
-                    size="30" 
-                    name="email" 
-                    placeholder="Entrez votre email" required>
-            
-            <label class="l" for="Numero_telephone">Numero de telephon:<br />
-                    <input class="in" type="tel" id="Numero_telephone" name="Numero_telephone" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"
-                    placeholder="0176-15-37-07-16" required />
-                   
-            <!--<label for="image_file">Sélectionner une image:</label><br>
-                   <input type="file" id="image_file" name="image_file" accept="image/*" required><br><br> -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Mail:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email" required>
+                </div>
 
-            <label class="l" for="password">Mot de passe: </label>
-                <input class="in" type="password"
-                   id="password" 
-                   name="password" 
-                   placeholder="Entrez votre mot de passe" required>
-            <label for="profil_bild">Choississez une foto de profil:</label>
+                <div class="mb-3">
+                    <label for="Numero_telephone" class="form-label">Numéro de téléphone:</label>
+                    <input type="tel" class="form-control" id="Numero_telephone" name="Numero_telephone" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" placeholder="0176-15-37-07-16" required>
+                </div>
 
-                   <input type="file" id="profil_bild" name="profil_bild" accept="image/png, image/jpeg" />
-            
-            <label class="l" for="description">Entrez une Description de vous: </label>
-                   <textarea class="in" id="description" name="description" rows="5" cols="33"  placeholder="je suis ingenieur depuis ...">
-                    
-                   </textarea>
-            
-            <div class="wrap">
-                <button class="bu" type="submit">
-                        Submit
-                </button>
-                
-            </div>
-        </form>
-       
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="profil_bild" class="form-label">Choisissez une photo de profil:</label>
+                    <input type="file" class="form-control" id="profil_bild" name="profil_bild" accept="image/png, image/jpeg">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Entrez une description de vous..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
-
 {% endblock %}
