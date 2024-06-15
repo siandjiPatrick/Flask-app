@@ -194,16 +194,16 @@ with app.app_context():
     if not User.query.filter_by(username='admin').first() :      
             user3 = User( username = "admin",
                         lastname = "admin",
-                        email = "gcptestpatrick@gmail.com",
+                        email = os.getenv("MAIL_USERNAME"),
                         telephone = "0176-25-45-36-78",
                         profile_picture="",
                         description = "",
                         password = generate_password_hash(os.getenv("ADMIN_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
 
-    if not BudgetCategorie.query.filter_by(budget_categorie_name='new').first() :      
+    if not BudgetCategorie.query.filter_by(budget_categorie_name='creer une nouvelle Categorie de Buget').first() :      
             new_categorie = BudgetCategorie(
-                            budget_categorie_name = 'new',
+                            budget_categorie_name = 'creer une nouvelle Categorie de Buget',
                             description = "",
                            )
             db.session.add(new_categorie)
@@ -453,7 +453,7 @@ def manage_budget():
         
         description = ""
         #categorie='test'
-        if request.form.get('categorie_budget') == "new":
+        if request.form.get('categorie_budget') == "creer une nouvelle Categorie de Buget":
             # create new budget categorie
             return redirect(url_for('manage_budget_categorie'))
         else:
@@ -703,7 +703,7 @@ def reset_password_email():
         print(email)
         msg = Message('Reset Password!', recipients=[email])
         msg.html = render_template('send_email.html')
-        msg.sender='gcptestpatrick@gmail.com'
+        msg.sender=os.getenv("MAIL_USERNAME")
         mail.send(msg)
         return redirect(url_for('login'))
     return render_template('reset_password_email.html', user=current_user)
@@ -711,4 +711,4 @@ def reset_password_email():
 if __name__ == '__main__':
    
    
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5555)
