@@ -7,6 +7,7 @@ from flask_mail import Mail, Message
 import os
 from datetime import datetime
 from dotenv import load_dotenv
+from flask_migrate import Migrate
 
 
 load_dotenv()
@@ -25,6 +26,8 @@ if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
 db = SQLAlchemy(app)
+
+migrade = Migrate(app, db)
 
 
 
@@ -54,41 +57,46 @@ class User(db.Model, UserMixin):
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=True)
+    username = db.Column(db.String(50), nullable=False, unique=True)
+    firstname = db.Column(db.String(50), nullable=False)
     lastname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     telephone = db.Column(db.String(20), unique=True, nullable=True)
-    description = db.Column(db.String(200), nullable=True)
-    password = db.Column(db.String(80), nullable=False)
+    password = db.Column(db.String(350), nullable=False)
     profile_picture = db.Column(db.String(120), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
-    argent_de_poche = db.relationship('ArgentDePoche', backref='beneficiaire', lazy=True)
-    depenses = db.relationship('Depenses', backref='responsible', lazy=True)
-    epargnes = db.relationship('Epargne', backref='provenance', lazy=True)
-    revenues = db.relationship('Revenues', backref='provenance', lazy=True)
+    create_date = db.Column(db.DateTime, default=datetime.now)
+    description = db.Column(db.String(200), nullable=True)
+
+    # relationship
+    argent_de_poche = db.relationship('ArgentDePoche', backref='user', lazy=True)
+    depenses = db.relationship('Depenses', backref='user', lazy=True)
+    epargnes = db.relationship('Epargne', backref='user', lazy=True)
+    revenues = db.relationship('Revenues', backref='user', lazy=True)
 
     def get_id(self):
         return str(self.user_id)  # Assuming user_id is the primary key
     
     def __repr__(self) -> str:
-        return f"use: {self.email}"
+        return f"user: {self.username}"
 
 # -> Table Revenue
 class Revenues(db.Model):
     __tablename__ = 'revenues'
-    revenue_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    designation_id = db.Column(db.Integer, db.ForeignKey('designation.id'), nullable=False) # foreign key
     montant = db.Column(db.Float, nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-    provenance_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
+    provenance_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False) # Foreign Key
+    date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
 
 class Designation(db.Model):
     __tablename__ = 'designation'
-    designation_id = db.Column(db.Integer, primary_key=True)
-    designation_name = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    create_date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    #Relationship
     depenses = db.relationship('Depenses', backref='designation', lazy=True)
     epargnes = db.relationship('Epargne', backref='designation', lazy=True)
     revenues = db.relationship('Revenues', backref='designation', lazy=True)
@@ -97,69 +105,76 @@ class Designation(db.Model):
 class ArgentDePoche(db.Model):
     __tablename__ = 'argent_de_poche'
     id = db.Column(db.Integer, primary_key=True)
-    montant = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(100), nullable=True)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
     beneficiaire_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    montant = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
+    description = db.Column(db.String(100), nullable=True)
+    
+    
 
 class DepensesCategorie(db.Model):
     __tablename__ = 'depenses_categorie'
-    depenses_categorie_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    depenses = db.relationship('Depenses', backref='categorie', lazy=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+
+    # Relationship
+    depenses = db.relationship('Depenses', backref='depenses_categorie', lazy=True)
 
 class Depenses(db.Model):
     __tablename__ = 'depenses'
-    depenses_id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
+    id = db.Column(db.Integer, primary_key=True)
+    designation_id = db.Column(db.Integer, db.ForeignKey('designation.id'), nullable=False)
+    depenses_categorie_id = db.Column(db.Integer, db.ForeignKey('depenses_categorie.id'), nullable=False)
     montant = db.Column(db.Float, nullable=False)
-    depenses_categorie_id = db.Column(db.Integer, db.ForeignKey('depenses_categorie.depenses_categorie_id'), nullable=False)
     responsable_depenses = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
-    designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
-
-
-
-
 
 class EpargneCategorie(db.Model):
     __tablename__ = 'epargne_categorie'
-    epargne_categorie_id = db.Column(db.Integer, primary_key=True)
-    epargne_categorie_name = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    create_date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationship
     epargnes = db.relationship('Epargne', backref='epargne_categorie', lazy=True)
 
 class Epargne(db.Model):
     __tablename__ = 'epargne'
-    epargne_id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(7), nullable=False)  # Format: MM.YYYY
-    epargne_categorie_id = db.Column(db.Integer, db.ForeignKey('epargne_categorie.epargne_categorie_id'), nullable=False)
-    montant = db.Column(db.Float, nullable=False)
-    description = db.Column(db.String(200), nullable=True)
+    id = db.Column(db.Integer, primary_key=True)
+    designation_id = db.Column(db.Integer, db.ForeignKey('designation.id'), nullable=False)
     provenance_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
-    designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
+    epargne_categorie_id = db.Column(db.Integer, db.ForeignKey('epargne_categorie.id'), nullable=False)
+    montant = db.Column(db.Float, nullable=False)
+    date = db.Column(db.String(7), nullable=False)  # Format: MM.YYYY
+    description = db.Column(db.String(200), nullable=True)
+    
+    
 
 class BudgetCategorie(db.Model):
     __tablename__ = 'budget_categorie'
-    budget_categorie_id = db.Column(db.Integer, primary_key=True)
-    budget_categorie_name = db.Column(db.String(100), nullable=False)#, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    create_date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # relationship
     budgets = db.relationship('Budget', backref='budget_categorie', lazy=True)
 
 class Budget(db.Model):
     __tablename__ = 'budget'
-    budget_id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.utcnow)
-    budget_categorie_id = db.Column(db.Integer, db.ForeignKey('budget_categorie.budget_categorie_id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    budget_categorie_id = db.Column(db.Integer, db.ForeignKey('budget_categorie.id'), nullable=False)
     montant = db.Column(db.Float, nullable=False)
+    date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
 
 
 
 #------------------------------------------------------------------------------------------------------------->
 ############# login system route ################
+"""
 users = [
     {
 
@@ -201,22 +216,15 @@ with app.app_context():
                         password = generate_password_hash(os.getenv("ADMIN_USER_PASSWORD"), method='pbkdf2:sha256'))
             db.session.add(user3)
 
-    if not BudgetCategorie.query.filter_by(budget_categorie_name='creer une nouvelle Categorie de Buget').first() :      
+    if not BudgetCategorie.query.filter_by(name='creer une nouvelle Categorie de Buget').first() :      
             new_categorie = BudgetCategorie(
-                            budget_categorie_name = 'creer une nouvelle Categorie de Buget',
+                            name = 'creer une nouvelle Categorie de Buget',
                             description = "",
                            )
             db.session.add(new_categorie)
 
-            depense = Depenses(
-                                    
-            montant = 25,
-            depenses_categorie_id = 2,
-            responsable_depenses = 3,
-            description = "mes depenses",
-            designation_id="loyer"
-                                ) 
-            db.session.add(depense)
+            designation = Designation(name="loyer")
+            db.session.add(designation)
 
             depense_categorie = DepensesCategorie(name="depenses_fixes")
             depense_categorie2 = DepensesCategorie(name="depenses_nourriture")
@@ -227,15 +235,25 @@ with app.app_context():
             db.session.add(depense_categorie3)
             db.session.add(depense_categorie4)
 
+            depense = Depenses(           
+            montant = 25,
+            categorie = depense_categorie2,
+            responsable = user1,
+            description = "mes depenses",
+            designation = designation
+                                ) 
+            db.session.add(depense)
+
+            
+
             # epargne init
 
-            epargne_categorie1 = EpargneCategorie(epargne_categorie_name = "FAH", description ="tontine fah")
-            epargne_categorie2 = EpargneCategorie(epargne_categorie_name = "FI", description ="tontine allemagne patrick")
+            epargne_categorie1 = EpargneCategorie(name = "FAH", description ="tontine fah")
+            epargne_categorie2 = EpargneCategorie(name = "FI", description ="tontine allemagne patrick")
             db.session.add(epargne_categorie1)
             db.session.add(epargne_categorie2)
 
-            designation = Designation(designation_name="loyer")
-            db.session.add(designation)
+           
     db.session.commit()
     #user1 = User(username='astrid', password=generate_password_hash('1234', method='pbkdf2:sha256'))
             
@@ -248,7 +266,7 @@ with app.app_context():
     
     users = User.query.all()
     print(users)
-
+"""
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -336,7 +354,7 @@ def manage_users():
             return redirect(url_for('home'))
         else:
        
-           msg = Message('Bienvenue sur notre plateforme!', recipients=[new_user.username])
+           msg = Message('Bienvenue sur notre plateforme!', recipients=[new_user.email])
            msg.html = render_template('send_email.html', user=current_user)
            msg.sender=os.getenv("MAIL_USERNAME")
            #image_file = request.files['image_file']
@@ -457,7 +475,7 @@ def manage_budget():
             # create new budget categorie
             return redirect(url_for('manage_budget_categorie'))
         else:
-            a = BudgetCategorie.query.filter_by(budget_categorie_name = categorie).first().budget_categorie_id
+            a = BudgetCategorie.query.filter_by(name = categorie).first().budget_categorie_id
             print("hehooooooooooooooooooooo")
             print(a)
             new_budget = Budget( 
@@ -490,7 +508,7 @@ def manage_depenses():
   
     responsable_depenses = db.Column(db.Integer, db.ForeignKey('user.user_id'), nullable=False)
     description = db.Column(db.String(200), nullable=True)
-    designation_id = db.Column(db.Integer, db.ForeignKey('designation.designation_id'), nullable=False)
+    designation_id = db.Column(db.Integer, db.ForeignKey('designation.id'), nullable=False)
 
     if request.method == 'POST':
         date = request.form.get('date')
@@ -520,9 +538,9 @@ def manage_depenses():
         new_depenses = Depenses(       
                     date = date,
                     montant = montant,
-                    depenses_categorie_id = "merci",
-                    responsable_depenses = responsable_depenses,
-                    designation_id = designation,
+                    categorie = DepensesCategorie.query.filter_by(name=depenses_categorie).first(),
+                    responsable = User.query.filter_by(lastname=responsable_depenses).first(),
+                    designation = Designation.query.filter_by(name=designation).first(),
                     description = description
              )
         
@@ -545,7 +563,7 @@ def manage_budget_categorie():
         print(categorie)
  
         new_categorie = BudgetCategorie(
-                            budget_categorie_name = categorie,
+                            name = categorie,
                             description = description,                      
                         )
     
@@ -565,22 +583,21 @@ def manage_revenues():
     print(designations)
     
     if request.method == 'POST':
-
-        designation_id = request.form.get('designation')
+        
+        designation = request.form.get('designation')
         description = request.form.get('description')
         date = request.form.get('date')
         date = datetime.strptime(date, "%Y-%m-%d")
         montant = request.form.get('montant')
-        provenance_id = request.form.get('provenance')
+        provenance = request.form.get('provenance')
         
-     
- 
+        
         new_revenues = Revenues(
-                            designation_id = designation_id,
+                            designation = Designation.query.filter_by(name=designation).first(),
                             description = description,
                             date = date,
                             montant = montant,
-                            provenance_id = provenance_id                    
+                            provenance = User.query.filter_by(lastname=provenance).first()                    
                         )
     
         db.session.add(new_revenues)
@@ -601,7 +618,7 @@ def manage_designations():
         
  
         new_designation = Designation(
-                            designation_name = designation_name,
+                            name = designation_name,
                             description = description,                      
                         )
     
