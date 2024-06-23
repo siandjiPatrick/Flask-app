@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Manage Users{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Manage Users</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Prénom:</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Entrez votre prénom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastname" class="form-label">Nom:</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Entrez votre nom" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-Mail:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Entrez votre email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="Numero_telephone" class="form-label">Numéro de téléphone:</label>
+                    <input type="tel" class="form-control" id="Numero_telephone" name="Numero_telephone" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}" placeholder="0176-15-37-07-16" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="password" class="form-label">Mot de passe:</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Entrez votre mot de passe" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="profil_bild" class="form-label">Choisissez une photo de profil:</label>
+                    <input type="file" class="form-control" id="profil_bild" name="profil_bild" accept="image/png, image/jpeg">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Entrez une description de vous..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

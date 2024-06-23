@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Manage Epargnes{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Création d'Epargnes</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                
+                <div class="mb-3">
+                    <label for="epargne_categorie" class="form-label">A quelle catégorie appartient l'épargne:</label>
+                    <select class="form-select" name="epargne_categorie" id="epargne_categorie">
+                        <option value="">-- Veuillez choisir une option --</option>
+                        {% for e in epargne_categories %}
+                        <option value="{{ e.epargne_categorie_name }}">{{ e.epargne_categorie_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="provenance" class="form-label">Auteur de l'épargne:</label>
+                    <select class="form-select" name="provenance" id="provenance">
+                        <option value="">-- Veuillez choisir une option --</option>
+                        {% for usr in all_users %}
+                        <option value="{{ usr.lastname }}">{{ usr.lastname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="montant" class="form-label">Montant de l'épargne:</label>
+                    <input type="number" class="form-control" name="montant" placeholder="1.0" step="0.01" min="0" max="10000">
+                </div>
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date du dépôt:</label>
+                    <input type="date" class="form-control" id="date" name="date" min="2023-01">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une Description de la catégorie:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la catégorie..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

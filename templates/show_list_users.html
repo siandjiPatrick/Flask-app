@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Liste d'utilisateurs {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste d'utilisateurs</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste d'utilisateurs</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prénom</th>
+                    <th scope="col">E-Mail</th>
+                    <th scope="col">N° Téléphone</th>
+                    <!--<th scope="col">Profil-image</th>-->
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usr in all_users %}
+                <tr>
+                    <th scope="row">{{ usr.user_id }}</th>
+                    <td>{{ usr.lastname }}</td>
+                    <td>{{ usr.username }}</td>
+                    <td>{{ usr.email }}</td>
+                    <td>{{ usr.telephone }}</td>
+                    <!--<td>{{ usr.profile_picture }}</td>-->
+                    <td>{{ usr.create_date }}</td>
+                    <td>{{ usr.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{{ url_for('manage_users') }}" class="btn btn-primary">Ajouter un nouveau utilisateur</a>
+  </div>
+</div>
+
+{% endblock %}

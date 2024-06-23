@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Créer une catégorie de Budget{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Création d'une catégorie de Budget</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                <div class="mb-3">
+                    <label for="new_categorie" class="form-label">Entrez le nom de la nouvelle catégorie de budget:</label>
+                    <input type="text" class="form-control" id="new_categorie" name="new_categorie" placeholder="Entrez une nouvelle catégorie" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une Description a la catégorie:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la catégorie..." ></textarea>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

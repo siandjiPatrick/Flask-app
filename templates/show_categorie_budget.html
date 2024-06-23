@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %} Liste des types de Budgets {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste des différents types de Budgets</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <caption>Liste des types de Budgets</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Nom de la catégorie</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categorie in categories %}
+                <tr>
+                    <th scope="row">{{ categorie.budget_categorie_id }}</th>
+                    <td>{{ categorie.create_date }}</td>
+                    <td>{{ categorie.budget_categorie_name }}</td>
+                    <td>{{ categorie.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('manage_budget_categorie') }}" class="btn btn-primary">Ajouter un nouveau type de budget</a>
+    </div>
+</div>
+
+{% endblock %}

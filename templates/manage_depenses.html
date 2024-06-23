@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Manage Dépenses{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Ajoutez une Dépense</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+               
+                <div class="mb-3">
+                    <label for="depense_categorie" class="form-label">À quelle catégorie appartient la dépense:</label>
+                    <select class="form-select" name="depense_categorie" id="depense_categorie" required>
+                        <option value="">--Veuillez choisir--</option>
+                        {% for c in depenses_categories %}
+                        <option value="{{ c.name }}">{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="provenance" class="form-label">Auteur de la Dépense:</label>
+                    <select class="form-select" name="provenance" id="provenance" required>
+                        <option value="">--Veuillez choisir--</option>
+                        {% for usr in all_users %}
+                        <option value="{{ usr.lastname }}">{{ usr.lastname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="montant" class="form-label">Montant de la dépense:</label>
+                    <input type="number" class="form-control" name="montant" placeholder="1.0" step="0.01" min="0" max="10000" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date de la dépense:</label>
+                    <input type="date" class="form-control" id="date" name="date" min="2023-01" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une description de la dépense:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la dépense..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

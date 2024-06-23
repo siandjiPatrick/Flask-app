@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}choose designation{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">choose_designation</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+                {% if designations == [] %}
+                <div class="mb-3">
+                    <label for="new_designation" class="form-label">Entrez une Désignation:</label>
+                    <input type="text" class="form-control" id="new_designation" name="new_designation" placeholder="Désignation" required>
+                </div>
+                {% else %}
+
+                <div class="mb-3">
+                    <label for="designation" class="form-label">Choisissez la Désignation:</label>
+                    <select class="form-select" name="designation" id="designation">
+                        <option value="">-- Creer une nouvelle Designation --</option>
+                        {% for designation in designations %}
+                        <option value="{{ designation.name }}">{{ designation.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <ul class="pagination">
+                    <li class="page-item"><button type="submit" class="btn btn-primary">weiter</button></a></li>
+                  </ul>
+                {% endif %}
+
+               
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

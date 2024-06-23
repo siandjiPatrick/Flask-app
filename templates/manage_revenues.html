@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Manage Revenus{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="text-center mb-4">Ajoutez un nouveau Revenu</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <form action="" method="post">
+               <!-- {% if designations == [] %}
+                <div class="mb-3">
+                    <label for="new_designation" class="form-label">Entrez une Désignation:</label>
+                    <input type="text" class="form-control" id="new_designation" name="new_designation" placeholder="Désignation" required>
+                </div>
+                {% else %}
+                <div class="mb-3">
+                    <label for="designation" class="form-label">Choisissez la Désignation:</label>
+                    <select class="form-select" name="designation" id="designation">
+                        <option value="">-- Veuillez choisir une option --</option>
+                        {% for designation in designations %}
+                        <option value="{{ designation.name }}">{{ designation.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endif %}-->
+
+                <div class="mb-3">
+                    <label for="provenance" class="form-label">De qui provient ce Revenu:</label>
+                    <select class="form-select" name="provenance" id="provenance">
+                        <option value="">-- Veuillez choisir une option --</option>
+                        {% for usr in all_users %}
+                        <option value="{{ usr.lastname }}">{{ usr.lastname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="montant" class="form-label">Montant du Revenu:</label>
+                    <input type="number" class="form-control" name="montant" placeholder="1.0" step="0.01" min="0" max="10000">
+                </div>
+
+                <div class="mb-3">
+                    <label for="date" class="form-label">Date du Revenu:</label>
+                    <input type="date" class="form-control" id="date" name="date" min="2023-01">
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Entrez une Description de la catégorie:</label>
+                    <textarea class="form-control" id="description" name="description" rows="5" placeholder="Description de la catégorie..."></textarea>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Créer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

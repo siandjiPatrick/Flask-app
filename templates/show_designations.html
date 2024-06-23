@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Liste de designations {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-4">Liste de Désignations</h1>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <caption>Liste de Désignations</caption>
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Nom de la Désignation</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for designation in designations %}
+                <tr>
+                    <th scope="row">{{ designation.id }}</th>
+                    <td>{{ designation.create_date }}</td>
+                    <td>{{ designation.name }}</td>
+                    <td>{{ designation.description }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{{ url_for('manage_designations') }}" class="btn btn-primary mt-3">Ajouter une nouvelle Désignation</a>
+</div>
+
+{% endblock %}
