@@ -38,16 +38,19 @@
     <div class="col p-3 bg-white text-white">
         <div class="card" style="width:500px">
             <div class="card-body">
-                <h4 class="card-title">Budget {{budget.name}}</h4>
-                <img class="card-img-top" src="{{ url_for('static', filename='budget_foods.png') }}" alt="Card image">
-
-                <p class="card-text">Some example text.</p>
+                <h4 class="card-title">Budget {{budget.budget_categorie.name}}</h4>
+                {% if budget.budget_categorie.profil_categorie%}
+                <img class="card-img-top" src="static/uploads/{{ budget.budget_categorie.profil_categorie }}" alt="Card image">
+                {% else %}
+                <img class="card-img-top" src="static/uploads/categorie.jpg" alt="Card image">
+                {% endif %}
+                <p class="card-text">ceci dois etre ecris le description du budget.</p>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:40%">test</div>
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:80%">{{budget.montant}} €</div>
                 </div>
                 
             </div>
-            <a href="#" class="btn btn-success">Afficher les depenses lie a cette categorie</a>
+            <a href="#" class="btn btn-text-success">Afficher les depenses lie a cette categorie</a>
         </div>
     </div>
     {% endfor %}

@@ -6,10 +6,14 @@
     <h1 class="text-center mb-4">Création d'une catégorie de Budget</h1>
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="new_categorie" class="form-label">Entrez le nom de la nouvelle catégorie de budget:</label>
                     <input type="text" class="form-control" id="new_categorie" name="new_categorie" placeholder="Entrez une nouvelle catégorie" required>
+                </div>
+                <div class="mb-3">
+                    <label for="profil_categorie" class="form-label">Choisissez une photo de profil pour votre categorie:</label>
+                    <input type="file" class="form-control" id="profil_categorie" name="profil_categorie" accept="image/png, image/jpeg">
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Entrez une Description a la catégorie:</label>

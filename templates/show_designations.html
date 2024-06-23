@@ -11,7 +11,6 @@
             <caption>Liste de Désignations</caption>
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Date de création</th>
                     <th scope="col">Nom de la Désignation</th>
                     <th scope="col">Description</th>
@@ -20,7 +19,6 @@
             <tbody>
                 {% for designation in designations %}
                 <tr>
-                    <th scope="row">{{ designation.id }}</th>
                     <td>{{ designation.create_date }}</td>
                     <td>{{ designation.name }}</td>
                     <td>{{ designation.description }}</td>

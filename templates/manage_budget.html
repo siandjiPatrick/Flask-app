@@ -23,7 +23,7 @@
                                     <input type="text" class="form-control" id="new_categorie" name="new_categorie" placeholder="Entrez une nouvelle catégorie" required>
                                 </div>
                             {% endif %}
-                            <option value="{{ c.budget_categorie_name }}">{{ c.budget_categorie_name }}</option>
+                            <option value="{{ c.name }}">{{ c.name }}</option>
                         {% endfor %}
                     </select>
                 </div>

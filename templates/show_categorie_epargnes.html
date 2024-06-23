@@ -11,7 +11,6 @@
             <caption>Liste des types d'épargnes</caption>
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Date de création</th>
                     <th scope="col">Nom de la catégorie</th>
                     <th scope="col">Description</th>
@@ -20,9 +19,8 @@
             <tbody>
                 {% for epargne_categorie in epargne_categories %}
                 <tr>
-                    <th scope="row">{{ epargne_categorie.epargne_categorie_id }}</th>
                     <td>{{ epargne_categorie.create_date }}</td>
-                    <td>{{ epargne_categorie.epargne_categorie_name }}</td>
+                    <td>{{ epargne_categorie.name }}</td>
                     <td>{{ epargne_categorie.description }}</td>
                 </tr>
                 {% endfor %}

@@ -11,11 +11,10 @@
             <caption>Liste de Revenus</caption>
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
+   
                     <th scope="col">Désignation</th>
                     <th scope="col">Montant</th>
                     <th scope="col">Provenance</th>
-                    <th scope="col">Date</th>
                     <th scope="col">Date de création</th>
                     <th scope="col">Description</th>
                 </tr>
@@ -23,12 +22,10 @@
             <tbody>
                 {% for revenue in revenues %}
                 <tr>
-                    <th scope="row">{{ revenue.revenue_id }}</th>
-                    <td>{{ revenue.designation_id }}</td>
-                    <td>{{ revenue.montant }}</td>
-                    <td>{{ revenue.provenance_id }}</td>
+                    <td>{{ revenue.designation.name }}</td>
+                    <td>{{ revenue.montant }} €</td>
+                    <td>{{ revenue.user.firstname}} {{revenue.user.email}}</td>
                     <td>{{ revenue.date }}</td>
-                    <td>{{ revenue.create_date }}</td>
                     <td>{{ revenue.description }}</td>
                 </tr>
                 {% endfor %}
@@ -38,7 +35,7 @@
     </div>
 
     <div class="text-center mt-4">
-      <a href="{{ url_for('manage_revenues') }}" class="btn btn-primary">Ajouter un nouveau Revenu</a>
+      <a href="{{ url_for('choose_designation', ref='ref_revenu') }}" class="btn btn-primary">Ajouter un nouveau Revenu</a>
   </div>
 </div>
 

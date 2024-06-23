@@ -11,10 +11,10 @@
             <caption>Liste de Dépenses</caption>
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">ID</th>
+        
                     <th scope="col">ID de la Designation</th>
                     <th scope="col">Montant</th>
-                    <th scope="col">ID de la Catégorie</th>
+                    <th scope="col">Catégorie de la depense</th>
                     <th scope="col">Responsable</th>
                     <th scope="col">Date de Création</th>
                     <th scope="col">Description</th>
@@ -23,11 +23,10 @@
             <tbody>
                 {% for depense in depenses %}
                 <tr>
-                    <th scope="row">{{ depense.depenses_id }}</th>
-                    <td>{{ depense.designation_id }}</td>
+                    <td>{{ depense.designation.name }}</td>
                     <td>{{ depense.montant }}</td>
-                    <td>{{ depense.depenses_categorie_id }}</td>
-                    <td>{{ depense.responsable_depenses }}</td>
+                    <td>{{ depense.depenses_categorie.name }}</td>
+                    <td>{{ depense.user.firstname }} {{ depense.user.lastname }}</td>
                     <td>{{ depense.date }}</td>
                     <td>{{ depense.description }}</td>
                 </tr>
@@ -37,7 +36,7 @@
     </div>
 
     <div class="text-center mt-4">
-      <a href="{{ url_for('manage_depenses') }}" class="btn btn-primary">Ajouter une nouvelle dépense</a>
+      <a href="{{ url_for('choose_designation', ref='ref_depense') }}" class="btn btn-primary">Ajouter une nouvelle dépense</a>
   </div>
 
 </div>

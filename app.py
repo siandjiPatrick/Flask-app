@@ -146,6 +146,7 @@ class BudgetCategorie(db.Model):
     __tablename__ = 'budget_categorie'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
+    profil_categorie = db.Column(db.String(120), nullable=True)
     create_date = db.Column(db.DateTime, default=datetime.now)
     description = db.Column(db.String(200), nullable=True)
 
@@ -312,6 +313,8 @@ def manage_users():
     print(users[0].username)
 
     if request.method == 'POST':
+       
+        username = request.form.get('usr-name')
         usr = request.form.get('username')
         password = generate_password_hash(request.form.get('password'), method='pbkdf2:sha256')
         lastname = request.form.get('lastname')
@@ -329,7 +332,8 @@ def manage_users():
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         profil_bild.save(file_path)
         
-        new_user = User( username = usr,
+        new_user = User( username = username,
+                    firstname=usr,                        
                     lastname = lastname,
                     email = email,
                     telephone = telephone,
@@ -407,8 +411,8 @@ def show_designations():
 @login_required
 def show_budgets():
 
-    #budgets = Budget.query.all()
-    budgets = Designation.query.all()
+    budgets = Budget.query.all()
+    #budgets = Designation.query.all()
     print(budgets)
     return render_template('show_budgets.html', user=current_user, budgets=budgets)
 
@@ -470,7 +474,7 @@ def manage_budget():
             # create new budget categorie
             return redirect(url_for('manage_budget_categorie'))
         else:
-            a = BudgetCategorie.query.filter_by(name = categorie).first().budget_categorie_id
+            a = BudgetCategorie.query.filter_by(name = categorie).first()
             print("hehooooooooooooooooooooo")
             print(a)
             new_budget = Budget( 
@@ -478,7 +482,7 @@ def manage_budget():
                                 montant = montant,
                                 description = description,
                                 date=date,
-                                budget_categorie_id=  a
+                                budget_categorie=  a
             )
         
 
@@ -556,10 +560,16 @@ def manage_budget_categorie():
         categorie = request.form.get('new_categorie')
         description = request.form.get('description')
         print(categorie)
+        profil_bild = request.files['profil_categorie']
+        print(profil_bild)
+        filename = secure_filename(profil_bild.filename)
+        file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        profil_bild.save(file_path)
  
         new_categorie = BudgetCategorie(
                             name = categorie,
-                            description = description,                      
+                            description = description,  
+                            profil_categorie =  filename              
                         )
     
         db.session.add(new_categorie)
