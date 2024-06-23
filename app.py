@@ -43,16 +43,6 @@ mail = Mail(app)
 
 
 #######################  Model(Table creation)  #########################################################
-"""
-class User(db.Model, UserMixin):
-    __tables__ = "user"
-   
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), nullable=False, unique=True)
-
-    password = db.Column(db.String(80), nullable=False)
-"""
-
 # -> Table User
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
